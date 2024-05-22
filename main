@@ -24,7 +24,7 @@ m = 1
 
 # Задание правой части дифференциального уравнения
 def fun(t, x):
-    return -1j * x * np.sqrt(T / (5 * m))
+    return -1j * (x-3) * np.sqrt(T / (5 * m)) -1
 
 
 # Вызов функции и визуализация
@@ -46,9 +46,9 @@ plt.show()
 # Делаем всё то же самое для y(t)
 # Задание правой части дифференциального уравнения
 def fun(t, x):
-    return -1j * x * np.sqrt(T / (5 * m))
+    return -1j * (x+4) * np.sqrt(T / (5 * m)) - np.sqrt(9.81-0.05*np.sin(2*np.pi*t)*(x+4)) -1
 
-
+# -1j * x1 * np.sqrt(T / (5 * m)) - np.sqrt(9.81-0.05*np.sin(2*np.pi)*x1)
 # Вызов функции и визуализация
 x_00 = -4
 t = [0, 30]
@@ -74,7 +74,7 @@ for i in range(len(x)):
 plt.plot(t, r, 'b')
 plt.xlabel('t')
 
-plt.ylim(3, 7)
+
 plt.ylabel('x(t)^2+y(t)^2')
 plt.title('Проверка радиус-вектора')
 plt.grid(True)
