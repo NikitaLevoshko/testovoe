@@ -1,0 +1,84 @@
+import numpy as np  # Импорт необходимых библиоте
+import matplotlib.pyplot as plt
+
+
+# Задание функции метода Рунге - Кутты
+def Runge_Kutta_method(fun, t, x_0, dt, args={}):
+    x = [x_0]
+    for i in range(int((t[1] - t[0]) / dt)):
+        x_new = x[i] + 1 / 2 * dt * fun(t[0] + dt * i, x[i], **args) + 1 / 2 * dt * fun(t[0] + dt * (i + 1),
+                                                                                        x[i] + dt * fun(t[0] + i * dt,
+                                                                                                        x[i], **args),
+                                                                                        **args)
+        x.append(x_new)
+        t_new = t[0] + (i + 1) * dt
+        t.append(t_new)
+    deleted_element = t.pop(1)
+    return t, x
+
+
+# Задание постоянных
+T = 5
+m = 1
+
+
+# Задание правой части дифференциального уравнения
+def fun(t, x):
+    return -1j * x * np.sqrt(T / (5 * m))
+
+
+# Вызов функции и визуализация
+x_0 = 3
+t = [0, 30]
+dt = 0.01
+t, x = Runge_Kutta_method(fun, t, x_0, dt, args={})
+plt.figure()
+plt.plot(t, x, 'b')
+plt.xlabel('t')
+plt.ylabel('x')
+plt.title('Approximation of x(t) using Runge_Kutta_method')
+plt.grid(True)
+ax = plt.gca()
+ax.set_aspect('equal', adjustable='box')
+plt.show()
+
+
+# Делаем всё то же самое для y(t)
+# Задание правой части дифференциального уравнения
+def fun(t, x):
+    return -1j * x * np.sqrt(T / (5 * m))
+
+
+# Вызов функции и визуализация
+x_00 = -4
+t = [0, 30]
+dt = 0.01
+t, x1 = Runge_Kutta_method(fun, t, x_00, dt, args={})
+plt.figure()
+plt.plot(t, x1, 'b')
+plt.xlabel('t')
+plt.ylabel('y')
+plt.title('Approximation of y(t) using Runge_Kutta_method')
+plt.grid(True)
+ax = plt.gca()
+ax.set_aspect('equal', adjustable='box')
+plt.show()
+
+
+
+plt.figure()
+r = []
+for i in range(len(x)):
+    rnew = np.sqrt(round(abs(x[i]**2 + x1[i]**2),3))
+    r.append(rnew)
+plt.plot(t, r, 'b')
+plt.xlabel('t')
+
+plt.ylim(3, 7)
+plt.ylabel('x(t)^2+y(t)^2')
+plt.title('Проверка радиус-вектора')
+plt.grid(True)
+ax = plt.gca()
+ax.set_aspect('equal', adjustable='box')
+plt.show()
+
